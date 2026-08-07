@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./site-fix.js"></script>
 </head>
 <body>
 <x-dc>
@@ -405,7 +406,7 @@ class Component extends DCLogic {
     }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
     const scan = () => document.querySelectorAll('[data-reveal]:not(.in)').forEach(el => io.observe(el));
     scan(); this._scan = setInterval(scan, 700);
-    setTimeout(() => { clearInterval(this._scan); this._scan = null; }, 6000);
+    /* keep reveal scan alive for SPA page switches */
   }
   componentWillUnmount(){ if (this._scan) clearInterval(this._scan); }
   fa(n){ return Math.round(n).toLocaleString('fa-IR'); }
@@ -424,7 +425,7 @@ class Component extends DCLogic {
       if (e) e.preventDefault();
       if (this.state.page === name) return;
       this.setState({ navLoading: true });
-      setTimeout(() => { this.setState({ page: name, navLoading: false }); window.scrollTo({ top: 0 }); }, 480);
+      setTimeout(() => { this.setState({ page: name, navLoading: false }); window.scrollTo({ top: 0 }); setTimeout(() => document.querySelectorAll('[data-reveal]:not(.in)').forEach(el => el.classList.add('in')), 60); }, 480);
     };
     return {
       isHome: this.state.page === 'home', isCourses: this.state.page === 'courses', isPrices: this.state.page === 'prices',

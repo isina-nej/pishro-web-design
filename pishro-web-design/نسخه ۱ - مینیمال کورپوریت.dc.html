@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./site-fix.js"></script>
 </head>
 <body>
 <x-dc>
@@ -511,7 +512,7 @@ class Component extends DCLogic {
     }), { threshold: .18, rootMargin: '0px 0px -8% 0px' });
     const scan = () => document.querySelectorAll('[data-reveal]:not(.in)').forEach(el => io.observe(el));
     scan(); this._scan = setInterval(scan, 700);
-    setTimeout(() => { clearInterval(this._scan); this._scan = null; }, 6000);
+    /* keep reveal scan alive for SPA page switches */
   }
   componentWillUnmount(){ if (this._scan) clearInterval(this._scan); }
   fa(n){ return Math.round(n).toLocaleString('fa-IR'); }
