@@ -536,6 +536,7 @@ class Component extends DCLogic {
       setTimeout(() => {
         this.setState({ page: name, navLoading: false });
         window.scrollTo({ top: 0, behavior: 'auto' });
+        setTimeout(() => document.querySelectorAll('[data-reveal]:not(.in)').forEach(el => el.classList.add('in')), 60);
       }, 480);
     };
     return {
