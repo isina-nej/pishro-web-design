@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
 <script src="./site-fix.js"></script>
-<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0B2A4A"/><text x="28%" y="55%" font-size="56" fill="#fff" font-family="sans-serif">۱۳</text></svg></template>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0B2A4A"/><text x="28%" y="55%" font-size="56" fill="#fff" font-family="sans-serif">۱۵</text></svg></template>
 </head>
 <body>
 <x-dc>
@@ -26,8 +26,8 @@ h1{font-size:clamp(28px,7.4vw,40px)!important}
 </helmet>
 <div dir="rtl" style="max-width:1080px;margin:0 auto;padding:64px 22px 80px">
   <div style="font-size:12.5px;font-weight:700;letter-spacing:2px;color:var(--accent);margin-bottom:14px">پیشرو سرمایه — لندینگ پیج</div>
-  <h1 style="margin:0 0 12px;font-size:40px;font-weight:800;color:var(--navy);letter-spacing:-1px">۱۳ نسخه طراحی</h1>
-  <p style="margin:0 0 32px;font-size:16.5px;line-height:2.1;color:var(--muted);max-width:640px">پالت رنگی در همه نسخه‌ها یکسان است: سرمه‌ای <b dir="ltr">#0B2A4A</b> + زمردی <b dir="ltr">#12A47A</b>. نسخه‌های جدید: کینتیک ۲۰۲۶، بروتالیسم لمسی، و اپل‌گلس آیفونی.</p>
+  <h1 style="margin:0 0 12px;font-size:40px;font-weight:800;color:var(--navy);letter-spacing:-1px">۱۵ نسخه طراحی</h1>
+  <p style="margin:0 0 32px;font-size:16.5px;line-height:2.1;color:var(--muted);max-width:640px">پالت رنگی در نسخه‌های اصلی یکسان است: سرمه‌ای <b dir="ltr">#0B2A4A</b> + زمردی <b dir="ltr">#12A47A</b>. نسخه‌های ۱۴ و ۱۵ اکسپریمنتال‌ترندند: کینتیک‌تایپ بروتال و لیکوییدگلس فضایی.</p>
   <div style="display:flex;gap:10px;margin-bottom:44px;flex-wrap:wrap">
     <div style="width:52px;height:52px;border-radius:12px;background:#0B2A4A"></div>
     <div style="width:52px;height:52px;border-radius:12px;background:#12A47A"></div>
@@ -36,7 +36,7 @@ h1{font-size:clamp(28px,7.4vw,40px)!important}
     <div style="width:52px;height:52px;border-radius:12px;background:#6E7583"></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
-    <sc-for list="{{ versions }}" as="v" hint-placeholder-count="13">
+    <sc-for list="{{ versions }}" as="v" hint-placeholder-count="15">
       <a href="{{ v.href }}" style="display:block;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 28px">
         <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
           <span style="font-size:12px;font-weight:800;color:#fff;background:#0B2A4A;padding:5px 10px;border-radius:6px">{{ v.n }}</span>
@@ -73,7 +73,9 @@ class Component extends DCLogic {
       ['۱۰','کلاسیک بانکی رسمی','گوشه‌های تیز، نوار اطلاعیه، جدول دوره‌ها و لحن اداری.','نسخه ۱۰ - کلاسیک بانکی رسمی.dc.html'],
       ['۱۱','تایپوگرافی کینتیک','ترند ۲۰۲۶: تیتر زنده با واژه‌های چرخان، مارquee و هیرو متن‌محور.','نسخه ۱۱ - تایپوگرافی کینتیک.dc.html'],
       ['۱۲','بروتالیسم لمسی','ترند ۲۰۲۶: هندسه تیز، خط ۱px، بافت دانه، مونو برای داده.','نسخه ۱۲ - بروتالیسم لمسی.dc.html'],
-      ['۱۳','اپل گلس آیفون','شیشه‌ای مات، گوشه نرم، هیرو محصول‌محور — حس طراحی آیفون.','نسخه ۱۳ - اپل گلس آیفون.dc.html']
+      ['۱۳','اپل گلس آیفون','شیشه‌ای مات، گوشه نرم، هیرو محصول‌محور — حس طراحی آیفون.','نسخه ۱۳ - اپل گلس آیفون.dc.html'],
+      ['۱۴','کینتیک تایپ بروتال','تایپ درشت متحرک + لبه‌های سخت و کنتراست اسیدی.','نسخه ۱۴ - کینتیک تایپ بروتال.dc.html'],
+      ['۱۵','اسپیشیال لیکویید گلس','گلس مایع فضایی با لایه‌های نور و عمق سه‌بعدی.','نسخه ۱۵ - اسپیشیال لیکویید گلس.dc.html']
     ];
     return {
       versions: v.map(x => ({ n: x[0], title: x[1], desc: x[2], href: encodeURI('./' + x[3]) })),
