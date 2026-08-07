@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<script src="./theme-toggle.js"></script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0B2A4A"/><text x="30%" y="55%" font-size="60" fill="#fff" font-family="sans-serif">۱۰</text></svg></template>
 </head>
 <body>
 <x-dc>
@@ -12,9 +12,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#F5F3EE;color:#14181F;font-family:Vazirmatn,system-ui,sans-serif;direction:rtl;-webkit-font-smoothing:antialiased}
-a{color:#0B2A4A;text-decoration:none}
-a:hover{color:#12A47A}
+:root{--bg:#F5F3EE;--surface:#fff;--text:#14181F;--muted:#5C6473;--faint:#6E7583;--navy:#0B2A4A;--accent:#12A47A;--border:#E4E0D7;--chip:#DCD9D1;--chip2:#E6E3DB}
+html.om-dark{--bg:#12181D;--surface:#1B222A;--text:#EDE9DF;--muted:#C7C2B8;--faint:#948E83;--navy:#F0C879;--accent:#37E0A4;--border:#2E3740;--chip:#2E3740;--chip2:#232A31}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Vazirmatn,system-ui,sans-serif;direction:rtl;-webkit-font-smoothing:antialiased}
+a{color:var(--navy);text-decoration:none}
+a:hover{color:var(--accent)}
 @media (max-width:900px){
 [style*="grid-template-columns"]{grid-template-columns:1fr!important}
 h1{font-size:clamp(28px,7.4vw,40px)!important}
@@ -22,32 +24,40 @@ h1{font-size:clamp(28px,7.4vw,40px)!important}
 </style>
 </helmet>
 <div dir="rtl" style="max-width:1080px;margin:0 auto;padding:64px 22px 80px">
-  <div style="font-size:12.5px;font-weight:700;letter-spacing:2px;color:#12A47A;margin-bottom:14px">پیشرو سرمایه — لندینگ پیج</div>
-  <h1 style="margin:0 0 12px;font-size:40px;font-weight:800;color:#0B2A4A;letter-spacing:-1px">۱۰ نسخه طراحی</h1>
-  <p style="margin:0 0 32px;font-size:16.5px;line-height:2.1;color:#5C6473;max-width:640px">پالت رنگی در همه‌ی نسخه‌ها یکسان است: سرمه‌ای <b dir="ltr">#0B2A4A</b> (اعتماد) + زمردی <b dir="ltr">#12A47A</b> (رشد) + نویترال‌های گرم. تفاوت نسخه‌ها در چیدمان، تایپوگرافی، سبک کارت‌ها و ساختار بصری است.</p>
+  <div style="font-size:12.5px;font-weight:700;letter-spacing:2px;color:var(--accent);margin-bottom:14px">پیشرو سرمایه — لندینگ پیج</div>
+  <h1 style="margin:0 0 12px;font-size:40px;font-weight:800;color:var(--navy);letter-spacing:-1px">۱۰ نسخه طراحی</h1>
+  <p style="margin:0 0 32px;font-size:16.5px;line-height:2.1;color:var(--muted);max-width:640px">پالت رنگی در همه‌ی نسخه‌ها یکسان است: سرمه‌ای <b dir="ltr">#0B2A4A</b> (اعتماد) + زمردی <b dir="ltr">#12A47A</b> (رشد) + نویترال‌های گرم. تفاوت نسخه‌ها در چیدمان، تایپوگرافی، سبک کارت‌ها و ساختار بصری است.</p>
   <div style="display:flex;gap:10px;margin-bottom:44px;flex-wrap:wrap">
     <div style="width:52px;height:52px;border-radius:12px;background:#0B2A4A"></div>
     <div style="width:52px;height:52px;border-radius:12px;background:#12A47A"></div>
-    <div style="width:52px;height:52px;border-radius:12px;background:#F5F3EE;border:1px solid #DCD9D1"></div>
-    <div style="width:52px;height:52px;border-radius:12px;background:#E6E3DB"></div>
+    <div style="width:52px;height:52px;border-radius:12px;background:var(--bg);border:1px solid var(--chip)"></div>
+    <div style="width:52px;height:52px;border-radius:12px;background:var(--chip2)"></div>
     <div style="width:52px;height:52px;border-radius:12px;background:#6E7583"></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
     <sc-for list="{{ versions }}" as="v" hint-placeholder-count="10">
-      <a href="{{ v.href }}" style="display:block;background:#fff;border:1px solid #E4E0D7;border-radius:16px;padding:26px 28px">
+      <a href="{{ v.href }}" style="display:block;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 28px">
         <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px">
           <span style="font-size:12px;font-weight:800;color:#fff;background:#0B2A4A;padding:5px 10px;border-radius:6px">{{ v.n }}</span>
-          <span style="font-size:19px;font-weight:800;color:#0B2A4A">{{ v.title }}</span>
+          <span style="font-size:19px;font-weight:800;color:var(--navy)">{{ v.title }}</span>
         </div>
-        <p style="margin:0;font-size:14.5px;line-height:2;color:#6E7583">{{ v.desc }}</p>
+        <p style="margin:0;font-size:14.5px;line-height:2;color:var(--faint)">{{ v.desc }}</p>
       </a>
     </sc-for>
   </div>
 </div>
+<button onClick="{{ toggleDark }}" style="position:fixed;bottom:22px;left:22px;z-index:200;display:flex;align-items:center;gap:9px;background:#0B2A4A;color:#fff;border:none;border-radius:999px;padding:12px 20px;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(11,42,74,.28)"><span style="font-size:15px">◐</span>{{ darkLabel }}</button>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  state = { dark: false };
+  componentDidMount(){
+    let d = false;
+    try { d = localStorage.getItem('om-dark-index') === '1'; } catch (e) {}
+    document.documentElement.classList.toggle('om-dark', d);
+    if (d) this.setState({ dark: true });
+  }
   renderVals(){
     const v = [
       ['۱','مینیمال کورپوریت','فضای سفید زیاد، خطوط نازک، تایپوگرافی آرام — پیش‌فرض قابل اتکا.','نسخه ۱ - مینیمال کورپوریت.dc.html'],
@@ -61,7 +71,16 @@ class Component extends DCLogic {
       ['۹','گلس‌مورفیسم','سطوح شیشه‌ای مات روی هاله‌های رنگی محو.','نسخه ۹ - گلسمورفیسم.dc.html'],
       ['۱۰','کلاسیک بانکی رسمی','گوشه‌های تیز، نوار اطلاعیه، جدول دوره‌ها و لحن اداری.','نسخه ۱۰ - کلاسیک بانکی رسمی.dc.html']
     ];
-    return { versions: v.map(x => ({ n: x[0], title: x[1], desc: x[2], href: encodeURI('./' + x[3]) })) };
+    return {
+      versions: v.map(x => ({ n: x[0], title: x[1], desc: x[2], href: encodeURI('./' + x[3]) })),
+      darkLabel: this.state.dark ? 'حالت روشن' : 'حالت تیره',
+      toggleDark: () => {
+        const d = !this.state.dark;
+        document.documentElement.classList.toggle('om-dark', d);
+        try { localStorage.setItem('om-dark-index', d ? '1' : '0'); } catch (e) {}
+        this.setState({ dark: d });
+      }
+    };
   }
 }
 </script>

@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
-<script src="./theme-toggle.js"></script>
 </head>
 <body>
 <x-dc>
@@ -18,6 +17,29 @@ a{color:#E7EEF6;text-decoration:none}
 a:hover{color:#3FD6A4}
 input,button{font-family:inherit}
 input[type=range]{accent-color:#3FD6A4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 10px #3FD6A4}50%{opacity:.45;transform:scale(.7);box-shadow:0 0 2px #3FD6A4}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 10px 34px rgba(63,214,164,.22)}50%{box-shadow:0 14px 52px rgba(63,214,164,.42)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+[data-reveal]{opacity:0}
+[data-reveal].in{animation:fadeUp .85s cubic-bezier(.2,.7,.2,1) both}
+[data-reveal][data-dir="f"].in{animation:fadeIn 1.1s ease both}
+a,button{transition:all .24s cubic-bezier(.2,.7,.2,1)}
+a[data-cta]{animation:glowPulse 4.2s ease-in-out infinite}
+a[data-cta]:hover{transform:translateY(-2px)}
+[data-card]{transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .45s,background .45s}
+[data-card]:hover{transform:translateY(-5px);border-color:rgba(63,214,164,.4)!important}
+[data-photo]{overflow:hidden}
+[data-photo] img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+[data-photo]:hover img{transform:scale(1.05)}
+[data-float]{animation:floatY 7s ease-in-out infinite}
+html.om-dark{background:#F2F4F6}
+html.om-dark [data-page]{filter:invert(1) hue-rotate(180deg)}
+html.om-dark img{filter:invert(1) hue-rotate(180deg)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1}}
 @media (max-width:900px){
 header > div{height:auto!important;flex-wrap:wrap!important;row-gap:10px!important;padding-top:12px!important;padding-bottom:12px!important}
 header nav{order:3;width:100%;flex-wrap:wrap!important;gap:8px 14px!important;font-size:13.5px!important}
@@ -30,7 +52,7 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
 }
 </style>
 </helmet>
-<div dir="rtl" style="max-width:100%;overflow-x:hidden;background:radial-gradient(1100px 520px at 80% -60px,rgba(18,164,122,.16),transparent 70%)">
+<div dir="rtl" data-page style="max-width:100%;overflow-x:hidden;background:radial-gradient(1100px 520px at 80% -60px,rgba(18,164,122,.16),transparent 70%)">
 
   <header style="position:sticky;top:0;z-index:50;background:rgba(6,22,37,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07)">
     <div style="max-width:1220px;margin:0 auto;padding:0 26px;height:74px;display:flex;align-items:center;gap:30px">
@@ -38,13 +60,13 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
         <div style="width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,#12A47A,#0B2A4A);box-shadow:0 0 20px rgba(18,164,122,.5)"></div>
         <span style="font-weight:800;font-size:17px;color:#fff">پیشرو سرمایه</span>
       </div>
-      <nav style="display:flex;gap:26px;font-size:14.5px;color:#93A7BC;flex:1">
-        <a href="#" style="color:#fff;font-weight:700">صفحه اصلی</a>
-        <a href="#courses" style="color:#93A7BC">دوره‌ها</a>
-        <a href="#" style="color:#93A7BC">قیمت ارزها</a>
-        <a href="#paths" style="color:#93A7BC">سبدهای سرمایه‌گذاری</a>
-        <a href="#" style="color:#93A7BC">اخبار</a>
-        <a href="#" style="color:#93A7BC">درباره ما</a>
+      <nav style="display:flex;gap:26px;font-size:14.5px;flex:1">
+        <a href="#" onClick="{{ goHome }}" style="{{ navStyleHome }}">صفحه اصلی</a>
+        <a href="#" onClick="{{ goCourses }}" style="{{ navStyleCourses }}">دوره‌ها</a>
+        <a href="#" onClick="{{ goPrices }}" style="{{ navStylePrices }}">قیمت ارزها</a>
+        <a href="#" onClick="{{ goPortfolios }}" style="{{ navStylePortfolios }}">سبدهای سرمایه‌گذاری</a>
+        <a href="#" onClick="{{ goNews }}" style="{{ navStyleNews }}">اخبار</a>
+        <a href="#" onClick="{{ goAbout }}" style="{{ navStyleAbout }}">درباره ما</a>
       </nav>
       <div style="display:flex;align-items:center;gap:12px;flex:none">
         <a href="#" style="font-size:14px;font-weight:600;color:#C9D8E7">ورود</a>
@@ -53,36 +75,37 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
     </div>
   </header>
 
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1220px;margin:0 auto;padding:96px 26px 70px;text-align:center">
     <div style="display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid rgba(63,214,164,.3);background:rgba(63,214,164,.08);border-radius:999px;font-size:13px;font-weight:600;color:#3FD6A4;margin-bottom:30px">
-      <span style="width:6px;height:6px;border-radius:50%;background:#3FD6A4;box-shadow:0 0 10px #3FD6A4"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#3FD6A4;animation:pulseDot 2.1s ease-in-out infinite"></span>
       سبد جدید مرداد ۱۴۰۵ باز است — ظرفیت محدود
     </div>
-    <h1 style="margin:0 auto 24px;font-size:62px;line-height:1.3;font-weight:800;letter-spacing:-1.8px;color:#fff;max-width:900px">سرمایه‌گذاری هوشمند و امن،<br><span style="background:linear-gradient(90deg,#3FD6A4,#8FE8CB);-webkit-background-clip:text;background-clip:text;color:transparent">با تضمین صددرصدی اصل سرمایه</span></h1>
+    <h1 data-reveal style="margin:0 auto 24px;font-size:62px;line-height:1.3;font-weight:800;letter-spacing:-1.8px;color:#fff;max-width:900px">سرمایه‌گذاری هوشمند و امن،<br><span style="background:linear-gradient(90deg,#3FD6A4,#8FE8CB);-webkit-background-clip:text;background-clip:text;color:transparent">با تضمین صددرصدی اصل سرمایه</span></h1>
     <p style="margin:0 auto 38px;font-size:18px;line-height:2;color:#93A7BC;max-width:560px">آکادمی آموزش مالی و سبدگردانی حرفه‌ای — جایی که آرامش و بازدهی با هم می‌آیند.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px">
-      <a href="#calc" style="background:#3FD6A4;color:#061625;font-weight:800;font-size:15.5px;padding:16px 34px;border-radius:13px;box-shadow:0 10px 34px rgba(63,214,164,.25)">شروع سرمایه‌گذاری</a>
+      <a href="#calc" data-cta style="background:#3FD6A4;color:#061625;font-weight:800;font-size:15.5px;padding:16px 34px;border-radius:13px">شروع سرمایه‌گذاری</a>
       <a href="#" style="border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#fff;font-weight:700;font-size:15.5px;padding:16px 34px;border-radius:13px">مشاوره رایگان</a>
     </div>
-    <div style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:24px;padding:12px">
-      <div style="aspect-ratio:16/6.4;border-radius:16px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 12px,rgba(255,255,255,.02) 12px 24px);display:flex;align-items:center;justify-content:center">
-        <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#6E8399;direction:ltr">platform dashboard screenshot</span>
+    <div data-reveal data-float style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:24px;padding:12px">
+      <div data-photo style="aspect-ratio:16/6.4;border-radius:16px;background:#0A1E33">
+        <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&amp;fit=crop&amp;w=1600&amp;q=72" alt="پنل معاملاتی" loading="lazy" style="animation:kenburns 24s ease-in-out infinite alternate;opacity:.9">
       </div>
     </div>
   </section>
 
   <section style="max-width:1220px;margin:0 auto;padding:0 26px 84px">
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
-      <div style="border:1px solid rgba(63,214,164,.28);background:linear-gradient(180deg,rgba(63,214,164,.1),rgba(63,214,164,.02));border-radius:20px;padding:30px">
-        <div style="font-size:40px;font-weight:800;color:#3FD6A4;letter-spacing:-1.2px">۱۰۰٪</div>
+      <div data-reveal data-card style="border:1px solid rgba(63,214,164,.28);background:linear-gradient(180deg,rgba(63,214,164,.1),rgba(63,214,164,.02));border-radius:20px;padding:30px">
+        <div data-count="100" data-suffix="٪" style="font-size:40px;font-weight:800;color:#3FD6A4;letter-spacing:-1.2px">۰</div>
         <div style="font-size:14px;color:#93A7BC;margin-top:8px">تضمین اصل سرمایه</div>
       </div>
-      <div style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:20px;padding:30px">
-        <div style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-1.2px">+۳۰۰۰</div>
+      <div data-reveal data-card style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:20px;padding:30px;animation-delay:.08s">
+        <div data-count="3000" data-prefix="+" style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-1.2px">۰</div>
         <div style="font-size:14px;color:#93A7BC;margin-top:8px">دانشجوی موفق</div>
       </div>
-      <div style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:20px;padding:30px">
-        <div style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-1.2px">۹۵٪</div>
+      <div data-reveal data-card style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:20px;padding:30px;animation-delay:.16s">
+        <div data-count="95" data-suffix="٪" style="font-size:40px;font-weight:800;color:#fff;letter-spacing:-1.2px">۰</div>
         <div style="font-size:14px;color:#93A7BC;margin-top:8px">رضایت کاربران</div>
       </div>
       <div style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:20px;padding:30px">
@@ -161,9 +184,9 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
       <sc-for list="{{ courses }}" as="c" hint-placeholder-count="3">
-        <div style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;overflow:hidden">
-          <div style="height:140px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 10px,rgba(255,255,255,.02) 10px 20px);display:flex;align-items:center;justify-content:center">
-            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#6E8399;direction:ltr">course cover</span>
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;overflow:hidden">
+          <div data-photo style="height:140px;background:#0A1E33">
+            <img src="{{ c.img }}" alt="{{ c.title }}" loading="lazy" style="opacity:.88">
           </div>
           <div style="padding:26px">
             <div style="display:flex;gap:8px;margin-bottom:14px">
@@ -184,11 +207,11 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
   <section style="max-width:1220px;margin:0 auto;padding:0 26px 90px">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
       <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
-        <div style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;padding:30px">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;padding:30px">
           <div style="color:#3FD6A4;font-size:14px;margin-bottom:14px">★★★★★</div>
           <p style="margin:0 0 22px;font-size:15px;line-height:2.1;color:#C9D8E7">{{ q.text }}</p>
           <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:40px;height:40px;border-radius:50%;background:repeating-linear-gradient(135deg,rgba(255,255,255,.1) 0 6px,rgba(255,255,255,.04) 6px 12px)"></div>
+            <div data-photo style="width:40px;height:40px;border-radius:50%;flex:none;background:#0A1E33"><img src="{{ q.img }}" alt="{{ q.name }}" loading="lazy"></div>
             <div><div style="font-size:14px;font-weight:700;color:#fff">{{ q.name }}</div><div style="font-size:12.5px;color:#93A7BC">{{ q.role }}</div></div>
           </div>
         </div>
@@ -211,6 +234,108 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
       </div>
     </div>
   </section>
+  </sc-if>
+
+  <sc-if value="{{ isCourses }}">
+  <section style="max-width:1220px;margin:0 auto;padding:80px 26px 90px">
+    <div data-reveal style="text-align:center;margin-bottom:44px">
+      <div style="font-size:12.5px;font-weight:700;color:#3FD6A4;letter-spacing:.5px;margin-bottom:12px">آکادمی پیشرو سرمایه</div>
+      <h1 style="margin:0 0 14px;font-size:38px;font-weight:800;color:#fff">همه دوره‌های آموزشی</h1>
+      <p style="margin:0 auto;font-size:16px;color:#93A7BC;max-width:500px">از ورود به بورس تا سبدگردانی حرفه‌ای.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <sc-for list="{{ allCourses }}" as="c" hint-placeholder-count="6">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;overflow:hidden">
+          <div data-photo style="height:140px;background:#0A1E33"><img src="{{ c.img }}" alt="{{ c.title }}" loading="lazy" style="opacity:.88"></div>
+          <div style="padding:24px">
+            <span style="font-size:12px;font-weight:600;color:#3FD6A4;background:rgba(63,214,164,.12);padding:5px 11px;border-radius:999px">{{ c.level }}</span>
+            <h3 style="margin:14px 0 12px;font-size:16.5px;font-weight:700;color:#fff;line-height:1.7">{{ c.title }}</h3>
+            <div style="font-size:15px;font-weight:800;color:#fff">{{ c.price }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isPrices }}">
+  <section style="max-width:1220px;margin:0 auto;padding:80px 26px 90px">
+    <div data-reveal style="text-align:center;margin-bottom:44px">
+      <div style="font-size:12.5px;font-weight:700;color:#3FD6A4;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:6px;height:6px;border-radius:50%;background:#3FD6A4;animation:pulseDot 1.8s ease-in-out infinite"></span>لحظه‌ای</div>
+      <h1 style="margin:0 0 14px;font-size:38px;font-weight:800;color:#fff">قیمت ارز، طلا و سکه</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <sc-for list="{{ currencies }}" as="p" hint-placeholder-count="8">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:18px;padding:22px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px"><span style="font-size:13.5px;font-weight:700;color:#fff">{{ p.name }}</span><span style="font-size:12px;font-weight:700;{{ p.color }}">{{ p.change }}</span></div>
+          <div style="font-size:20px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums">{{ p.price }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isPortfolios }}">
+  <section style="max-width:1220px;margin:0 auto;padding:80px 26px 90px">
+    <div data-reveal style="text-align:center;margin-bottom:44px">
+      <h1 style="margin:0 0 14px;font-size:38px;font-weight:800;color:#fff">سبد سرمایه‌گذاری خود را انتخاب کنید</h1>
+      <p style="margin:0 auto;font-size:16px;color:#93A7BC;max-width:500px">هر سه سبد با سند رسمی و تضمین اصل سرمایه اداره می‌شوند.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <sc-for list="{{ funds }}" as="f" hint-placeholder-count="3">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;padding:30px;{{ f.highlight }}">
+          <div style="font-size:12.5px;font-weight:700;color:#3FD6A4;margin-bottom:10px">{{ f.tag }}</div>
+          <h3 style="margin:0 0 12px;font-size:20px;font-weight:800;color:#fff">{{ f.name }}</h3>
+          <p style="margin:0 0 20px;font-size:13.5px;color:#93A7BC;line-height:1.9">{{ f.desc }}</p>
+          <div style="display:flex;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-size:13.5px"><span style="color:#93A7BC">بازدهی دوره</span><span style="font-weight:800;color:#fff">{{ f.yield }}</span></div>
+          <a href="#" onClick="{{ goHome }}" data-cta style="display:block;text-align:center;margin-top:18px;background:#3FD6A4;color:#061625;font-weight:800;font-size:13.5px;padding:12px;border-radius:11px">شروع با این سبد</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isNews }}">
+  <section style="max-width:1220px;margin:0 auto;padding:80px 26px 90px">
+    <div data-reveal style="text-align:center;margin-bottom:44px">
+      <h1 style="margin:0 0 14px;font-size:38px;font-weight:800;color:#fff">تازه‌ترین اخبار بازار</h1>
+      <p style="margin:0 auto;font-size:16px;color:#93A7BC;max-width:480px">تحلیل هفتگی بازار سرمایه، ارز و طلا.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <sc-for list="{{ news }}" as="n" hint-placeholder-count="6">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:22px;overflow:hidden">
+          <div data-photo style="height:140px;background:#0A1E33"><img src="{{ n.img }}" alt="{{ n.title }}" loading="lazy" style="opacity:.88"></div>
+          <div style="padding:22px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="font-size:12px;font-weight:600;color:#3FD6A4;background:rgba(63,214,164,.12);padding:5px 10px;border-radius:999px">{{ n.tag }}</span><span style="font-size:12px;color:#6E8399">{{ n.date }}</span></div>
+            <h3 style="margin:0;font-size:15.5px;font-weight:700;color:#fff;line-height:1.7">{{ n.title }}</h3>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}">
+  <section style="max-width:1220px;margin:0 auto;padding:80px 26px 90px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;margin-bottom:70px">
+      <div data-reveal>
+        <div style="font-size:12.5px;font-weight:700;color:#3FD6A4;margin-bottom:14px">درباره ما</div>
+        <h1 style="margin:0 0 18px;font-size:34px;font-weight:800;color:#fff;line-height:1.4">تیمی که بازار را با انضباط می‌بیند</h1>
+        <p style="margin:0;font-size:15px;line-height:2.1;color:#93A7BC">از سال ۱۳۹۳ در آموزش مالی و مدیریت سبدهای سرمایه‌گذاری تضمینی فعالیت می‌کنیم.</p>
+      </div>
+      <div data-reveal data-photo style="aspect-ratio:4/3.2;border-radius:20px;background:#0A1E33"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&amp;fit=crop&amp;w=700&amp;q=70" alt="دفتر پیشرو سرمایه" loading="lazy" style="opacity:.9"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <sc-for list="{{ team }}" as="t" hint-placeholder-count="4">
+        <div data-reveal data-card style="border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);border-radius:20px;padding:20px;text-align:center">
+          <div data-photo style="width:100%;aspect-ratio:1;border-radius:14px;background:#0A1E33;margin-bottom:14px"><img src="{{ t.img }}" alt="{{ t.name }}" loading="lazy" style="opacity:.9"></div>
+          <div style="font-size:14px;font-weight:700;color:#fff">{{ t.name }}</div>
+          <div style="font-size:12px;color:#93A7BC;margin-top:4px">{{ t.role }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
 
   <footer style="border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.2)">
     <div style="max-width:1220px;margin:0 auto;padding:60px 26px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px">
@@ -232,11 +357,42 @@ section,footer > div{padding-left:18px!important;padding-right:18px!important}
     <div style="border-top:1px solid rgba(255,255,255,.07)"><div style="max-width:1220px;margin:0 auto;padding:18px 26px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#6E8399"><span>© ۱۴۰۵ پیشرو سرمایه</span><span>سرمایه‌گذاری همراه با ریسک است؛ اصل سرمایه در سبدهای تضمینی حفظ می‌شود.</span></div></div>
   </footer>
 </div>
+<button onClick="{{ toggleDark }}" style="position:fixed;bottom:22px;left:22px;z-index:200;display:flex;align-items:center;gap:9px;background:#3FD6A4;color:#061625;border:none;border-radius:999px;padding:12px 20px;font-size:13.5px;font-weight:800;cursor:pointer;box-shadow:0 12px 30px rgba(63,214,164,.28)"><span style="font-size:15px">◐</span>{{ darkLabel }}</button>
+
+<sc-if value="{{ navLoading }}">
+<div style="position:fixed;inset:0;z-index:500;background:#061625;display:flex;align-items:center;justify-content:center">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+    <div style="width:44px;height:44px;border-radius:50%;border:3px solid rgba(255,255,255,.1);border-top-color:#3FD6A4;animation:spin .7s linear infinite"></div>
+    <span style="font-size:13.5px;color:#93A7BC;font-weight:600">در حال بارگذاری…</span>
+  </div>
+</div>
+</sc-if>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
 class Component extends DCLogic {
-  state = { amount: 200000000, months: 12, fund: 'fixed', phone: '', sent: false };
+  state = { amount: 200000000, months: 12, fund: 'fixed', phone: '', sent: false, dark: false, page: 'home', navLoading: false };
+  componentDidMount(){
+    let d = false;
+    try { d = localStorage.getItem('om-dark-v4') === '1'; } catch (e) {}
+    document.documentElement.classList.toggle('om-dark', d);
+    if (d) this.setState({ dark: true });
+    const fa = n => Math.round(n).toLocaleString('fa-IR');
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target; el.classList.add('in'); io.unobserve(el);
+      el.querySelectorAll('[data-count]').forEach(c => {
+        const to = +c.dataset.count, sfx = c.dataset.suffix || '', pfx = c.dataset.prefix || '', t0 = performance.now();
+        const tick = t => { const p = Math.min(1,(t-t0)/1300), e = 1-Math.pow(1-p,3);
+          c.textContent = pfx + fa(to*e) + sfx; if (p<1) requestAnimationFrame(tick); };
+        requestAnimationFrame(tick);
+      });
+    }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+    const scan = () => document.querySelectorAll('[data-reveal]:not(.in)').forEach(el => io.observe(el));
+    scan(); this._scan = setInterval(scan, 700);
+    setTimeout(() => { clearInterval(this._scan); this._scan = null; }, 6000);
+  }
+  componentWillUnmount(){ if (this._scan) clearInterval(this._scan); }
   fa(n){ return Math.round(n).toLocaleString('fa-IR'); }
   tab(on){
     return on
@@ -247,8 +403,67 @@ class Component extends DCLogic {
     const { amount, months, fund, phone, sent } = this.state;
     const isFixed = fund === 'fixed';
     const profit = isFixed ? amount * 0.025 * months : amount * Math.pow(1.11, months / 3) - amount;
+    const navBase = 'font-size:14.5px;transition:color .2s;';
+    const navStyle = name => this.state.page === name ? navBase + 'color:#fff;font-weight:700' : navBase + 'color:#93A7BC;font-weight:500';
+    const goTo = name => e => {
+      if (e) e.preventDefault();
+      if (this.state.page === name) return;
+      this.setState({ navLoading: true });
+      setTimeout(() => { this.setState({ page: name, navLoading: false }); window.scrollTo({ top: 0 }); }, 480);
+    };
     return {
+      isHome: this.state.page === 'home', isCourses: this.state.page === 'courses', isPrices: this.state.page === 'prices',
+      isPortfolios: this.state.page === 'portfolios', isNews: this.state.page === 'news', isAbout: this.state.page === 'about',
+      navLoading: this.state.navLoading,
+      navStyleHome: navStyle('home'), navStyleCourses: navStyle('courses'), navStylePrices: navStyle('prices'),
+      navStylePortfolios: navStyle('portfolios'), navStyleNews: navStyle('news'), navStyleAbout: navStyle('about'),
+      goHome: goTo('home'), goCourses: goTo('courses'), goPrices: goTo('prices'),
+      goPortfolios: goTo('portfolios'), goNews: goTo('news'), goAbout: goTo('about'),
+      allCourses: [
+        { title: 'دوره جامع تحلیل تکنیکال بورس ایران', level: 'مقدماتی', price: '۳٬۹۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=420&q=68' },
+        { title: 'تحلیل بنیادی و صورت‌های مالی', level: 'متوسط', price: '۴٬۵۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=420&q=68' },
+        { title: 'مدیریت سرمایه و روان‌شناسی معامله‌گری', level: 'پیشرفته', price: '۲٬۸۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=420&q=68' },
+        { title: 'مقدمات ورود به بورس', level: 'مقدماتی', price: '۱٬۲۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=420&q=68' },
+        { title: 'تابلوخوانی و رفتار حجم معاملات', level: 'متوسط', price: '۳٬۲۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=420&q=68' },
+        { title: 'ساخت و مدیریت سبد شخصی', level: 'پیشرفته', price: '۲٬۹۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?auto=format&fit=crop&w=420&q=68' }
+      ],
+      currencies: [
+        { name: 'دلار آمریکا', price: '۹۲٬۴۰۰', change: '▲۰.۴٪', color: 'color:#3FD6A4' },
+        { name: 'یورو', price: '۱۰۱٬۲۰۰', change: '▲۰.۲٪', color: 'color:#3FD6A4' },
+        { name: 'سکه امامی', price: '۶۸٬۹۰۰٬۰۰۰', change: '▼۰.۱٪', color: 'color:#F2A65A' },
+        { name: 'طلای ۱۸ عیار', price: '۶٬۲۴۰٬۰۰۰', change: '▲۰.۶٪', color: 'color:#3FD6A4' },
+        { name: 'درهم امارات', price: '۲۵٬۱۰۰', change: '▼۰.۳٪', color: 'color:#F2A65A' },
+        { name: 'شاخص کل بورس', price: '۲٬۴۱۸٬۶۰۰', change: '▲۱.۱٪', color: 'color:#3FD6A4' },
+        { name: 'شاخص هم‌وزن', price: '۷۹۴٬۲۰۰', change: '▲۰.۸٪', color: 'color:#3FD6A4' },
+        { name: 'دلار توافقی', price: '۸۹٬۸۰۰', change: '▲۰.۱٪', color: 'color:#3FD6A4' }
+      ],
+      funds: [
+        { tag: 'ریسک پایین', name: 'صندوق درآمد ثابت', desc: 'سود ماهانه ثابت با تضمین اصل سرمایه.', yield: '۲.۵٪ ماهانه', highlight: '' },
+        { tag: 'ریسک متوسط', name: 'صندوق ترکیبی', desc: 'ترکیب سهام و اوراق برای بازدهی متعادل.', yield: 'تا ۷٪ فصلی', highlight: 'border-color:rgba(63,214,164,.4)' },
+        { tag: 'ریسک بالا', name: 'صندوق هولد', desc: 'رشد بلندمدت روی سهام بنیادی برتر بازار.', yield: 'تا ۱۱٪ فصلی', highlight: '' }
+      ],
+      news: [
+        { title: 'روند صعودی شاخص کل در هفته اخیر', tag: 'بازار سهام', date: '۱۵ مرداد', img: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=420&q=68' },
+        { title: 'پیش‌بینی نرخ ارز در نیمه دوم سال', tag: 'ارز', date: '۱۲ مرداد', img: 'https://images.unsplash.com/photo-1518183214770-9cffbec72538?auto=format&fit=crop&w=420&q=68' },
+        { title: 'بازگشایی سبد جدید درآمد ثابت مرداد', tag: 'اطلاعیه', date: '۸ مرداد', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=420&q=68' },
+        { title: 'گزارش عملکرد صندوق هولد در تابستان', tag: 'گزارش', date: '۳ مرداد', img: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=420&q=68' },
+        { title: 'سه اشتباه رایج سرمایه‌گذاران تازه‌کار', tag: 'آموزشی', date: '۲۸ تیر', img: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=420&q=68' },
+        { title: 'وبینار رایگان تحلیل بنیادی برگزار شد', tag: 'رویداد', date: '۲۴ تیر', img: 'https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?auto=format&fit=crop&w=420&q=68' }
+      ],
+      team: [
+        { name: 'رضا موحد', role: 'مدیر تحلیل', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=70' },
+        { name: 'نگار امینی', role: 'تحلیلگر ارشد', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=70' },
+        { name: 'کاوه فرید', role: 'مدرس تکنیکال', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=70' },
+        { name: 'سارا حیدری', role: 'ارتباط با مشتری', img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=200&q=70' }
+      ],
       amount, months, phone,
+      darkLabel: this.state.dark ? 'حالت تیره' : 'حالت روشن',
+      toggleDark: () => {
+        const d = !this.state.dark;
+        document.documentElement.classList.toggle('om-dark', d);
+        try { localStorage.setItem('om-dark-v4', d ? '1' : '0'); } catch (e) {}
+        this.setState({ dark: d });
+      },
       amountFa: this.fa(amount), monthsFa: this.fa(months), profitFa: this.fa(profit),
       totalFa: this.fa(amount + profit), pctFa: this.fa(profit / amount * 100),
       secondaryLabel: isFixed ? 'پرداخت ماهانه' : 'سود مرکب فصلی',
@@ -262,14 +477,14 @@ class Component extends DCLogic {
       submit: () => this.setState({ sent: true }),
       formNote: sent ? '✓ ثبت شد — پیامک تأیید ارسال می‌شود.' : 'با عضویت، شرایط استفاده و حریم خصوصی را می‌پذیرید.',
       courses: [
-        { title: 'دوره جامع تحلیل تکنیکال بورس ایران', level: 'مقدماتی', hours: '۲۴ ساعت', rating: '۴.۸', reviews: '۴۱۲', price: '۳٬۹۰۰٬۰۰۰' },
-        { title: 'تحلیل بنیادی و صورت‌های مالی شرکت‌ها', level: 'متوسط', hours: '۱۸ ساعت', rating: '۴.۷', reviews: '۲۸۶', price: '۴٬۵۰۰٬۰۰۰' },
-        { title: 'مدیریت سرمایه و روان‌شناسی معامله‌گری', level: 'پیشرفته', hours: '۱۲ ساعت', rating: '۴.۹', reviews: '۱۹۳', price: '۲٬۸۰۰٬۰۰۰' }
+        { title: 'دوره جامع تحلیل تکنیکال بورس ایران', level: 'مقدماتی', hours: '۲۴ ساعت', rating: '۴.۸', reviews: '۴۱۲', price: '۳٬۹۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=520&q=68' },
+        { title: 'تحلیل بنیادی و صورت‌های مالی شرکت‌ها', level: 'متوسط', hours: '۱۸ ساعت', rating: '۴.۷', reviews: '۲۸۶', price: '۴٬۵۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=520&q=68' },
+        { title: 'مدیریت سرمایه و روان‌شناسی معامله‌گری', level: 'پیشرفته', hours: '۱۲ ساعت', rating: '۴.۹', reviews: '۱۹۳', price: '۲٬۸۰۰٬۰۰۰', img: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=520&q=68' }
       ],
       quotes: [
-        { text: 'بعد از دو سال ضرر پراکنده، با سبد درآمد ثابت پیشرو خیالم راحت شد. گزارش ماهانه دقیق و بدون وعده‌های عجیب.', name: 'مهدی رحمانی', role: 'سرمایه‌گذار — اصفهان' },
-        { text: 'دوره تحلیل تکنیکال کاملاً کاربردی بود؛ مدرس تا سه ماه بعد هم جواب سؤال‌ها را می‌داد.', name: 'سمیرا کاظمی', role: 'دانشجوی دوره جامع' },
-        { text: 'مسیر حضوری را انتخاب کردم چون سند رسمی می‌خواستم. همه‌چیز شفاف و مکتوب بود.', name: 'علیرضا نصیری', role: 'سرمایه‌گذار — تهران' }
+        { text: 'بعد از دو سال ضرر پراکنده، با سبد درآمد ثابت پیشرو خیالم راحت شد. گزارش ماهانه دقیق و بدون وعده‌های عجیب.', name: 'مهدی رحمانی', role: 'سرمایه‌گذار — اصفهان', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=140&q=70' },
+        { text: 'دوره تحلیل تکنیکال کاملاً کاربردی بود؛ مدرس تا سه ماه بعد هم جواب سؤال‌ها را می‌داد.', name: 'سمیرا کاظمی', role: 'دانشجوی دوره جامع', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=140&q=70' },
+        { text: 'مسیر حضوری را انتخاب کردم چون سند رسمی می‌خواستم. همه‌چیز شفاف و مکتوب بود.', name: 'علیرضا نصیری', role: 'سرمایه‌گذار — تهران', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=140&q=70' }
       ]
     };
   }
