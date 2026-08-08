@@ -268,7 +268,7 @@ class Component extends DCLogic {
 
   componentDidMount(){
     let d = false;
-    try { d = localStorage.getItem('om-dark-v11') === '1'; } catch (e) {}
+    try { d = localStorage.getItem('om-dark-v14') === '1'; } catch (e) {}
     if (d) document.documentElement.classList.add('om-dark');
     this.setState({ dark: d });
     this._io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: .12 });
@@ -304,6 +304,8 @@ class Component extends DCLogic {
       this._navTimer = setTimeout(() => {
         this.setState({ page: name, navLoading: false });
         window.scrollTo({ top: 0 });
+        setTimeout(() => document.querySelectorAll('[data-reveal]:not(.in),[data-kin]:not(.in)').forEach(el => el.classList.add('in')), 60);
+        setTimeout(() => document.querySelectorAll('[data-reveal]:not(.in),[data-kin]:not(.in)').forEach(el => el.classList.add('in')), 400);
         this._navTimer = null;
       }, 520);
     };
@@ -337,7 +339,7 @@ class Component extends DCLogic {
       toggleDark: () => {
         const next = !this.state.dark;
         document.documentElement.classList.toggle('om-dark', next);
-        try { localStorage.setItem('om-dark-v11', next ? '1' : '0'); } catch (e) {}
+        try { localStorage.setItem('om-dark-v14', next ? '1' : '0'); } catch (e) {}
         this.setState({ dark: next });
       },
 

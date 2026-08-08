@@ -39,7 +39,7 @@
 <div dir="rtl" style="width:100%; background:#F5F4EF; color:#1A1C16; font-family:'Vazirmatn',sans-serif; overflow-x:hidden">
 
   <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
-  <section style="position:relative; width:100%; height:100vh; min-height:640px; overflow:hidden; background:#0A100E">
+  <section data-fullbleed style="position:relative; width:100%; height:100vh; min-height:640px; overflow:hidden; background:#0A100E">
     <video autoPlay="" muted="" loop="" playsInline="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover">
       <source src="https://www.pishrosarmaye.com/videos/aboutUs.webm" type="video/webm" />
     </video>
@@ -81,18 +81,18 @@
     <div style="position:absolute; left:0; right:0; bottom:0; height:52%; z-index:5">
       <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%">
         <defs>
-          <linearGradient id="omStrokeD" x1="0" y1="0" x2="1" y2="0">
+          <linearGradient id="omStrokeDesk" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#6E5B3E"></stop>
             <stop offset="55%" stop-color="#D4B06A"></stop>
             <stop offset="100%" stop-color="#F5E7C4"></stop>
           </linearGradient>
-          <linearGradient id="omAreaD" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="omAreaDesk" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="rgba(212,176,106,.3)"></stop>
             <stop offset="100%" stop-color="rgba(212,176,106,0)"></stop>
           </linearGradient>
         </defs>
-        <path d="M0,268 C140,240 230,286 352,224 C470,164 552,212 686,150 C812,92 906,124 1052,74 C1188,28 1300,48 1440,14 L1440,320 L0,320 Z" fill="url(#omAreaD)" style="opacity:0; animation:omFade 1.6s ease 1.1s forwards"></path>
-        <path d="M0,268 C140,240 230,286 352,224 C470,164 552,212 686,150 C812,92 906,124 1052,74 C1188,28 1300,48 1440,14" fill="none" stroke="url(#omStrokeD)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3000" stroke-dashoffset="3000" style="animation:omDrawWide 2.8s cubic-bezier(.6,0,.2,1) .7s forwards; filter:drop-shadow(0 0 16px rgba(212,176,106,.55))"></path>
+        <path d="M0,268 C140,240 230,286 352,224 C470,164 552,212 686,150 C812,92 906,124 1052,74 C1188,28 1300,48 1440,14 L1440,320 L0,320 Z" fill="url(#omAreaDesk)" style="opacity:0; animation:omFade 1.6s ease 1.1s forwards"></path>
+        <path d="M0,268 C140,240 230,286 352,224 C470,164 552,212 686,150 C812,92 906,124 1052,74 C1188,28 1300,48 1440,14" fill="none" stroke="url(#omStrokeDesk)" stroke-width="3" stroke-linecap="round" stroke-dasharray="3000" stroke-dashoffset="3000" style="animation:omDrawWide 2.8s cubic-bezier(.6,0,.2,1) .7s forwards; filter:drop-shadow(0 0 16px rgba(212,176,106,.55))"></path>
       </svg>
       <div style="position:absolute; inset:0; display:flex; align-items:flex-end; gap:10px; padding:0 40px; opacity:.5">
         <sc-for list="{{ bars }}" as="b" hint-placeholder-count="18">
@@ -106,7 +106,7 @@
         <span style="width:8px; height:8px; border-radius:999px; background:#D4B06A; animation:omBlink 1.6s ease-in-out infinite"></span>بازار زنده · تحلیل لحظه‌ای · آموزش تخصصی
       </div>
 
-      <h1 style="margin:clamp(14px,2.4vh,26px) 0 0; font-size:clamp(64px,min(9vw,15vh),150px); font-weight:900; line-height:.92; letter-spacing:-.055em; color:#E9CE93; text-shadow:0 0 70px rgba(212,176,106,.4); animation:omUp 1.2s cubic-bezier(.2,.8,.2,1) 1.45s both">پیشرو</h1>
+      <h1 data-hero style="margin:clamp(14px,2.4vh,26px) 0 0; font-size:clamp(64px,min(9vw,15vh),150px); font-weight:900; line-height:.92; letter-spacing:-.055em; color:#E9CE93; text-shadow:0 0 70px rgba(212,176,106,.4); animation:omUp 1.2s cubic-bezier(.2,.8,.2,1) 1.45s both">پیشرو</h1>
 
       <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:clamp(28px,4vw,60px); flex-wrap:wrap; margin-top:clamp(16px,3vh,30px)">
         <div style="max-width:620px; animation:omUp 1s ease 1.65s both">
@@ -179,7 +179,7 @@
   </sc-if>
 
   <sc-if value="{{ isMobile }}">
-  <section style="position:relative; height:100dvh; min-height:600px; overflow:hidden; background:#05080A; color:#F0EEE6">
+  <section data-fullbleed style="position:relative; height:100dvh; min-height:600px; overflow:hidden; background:#05080A; color:#F0EEE6">
     <video autoPlay="" muted="" loop="" playsInline="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.2">
       <source src="https://www.pishrosarmaye.com/videos/aboutUs.webm" type="video/webm" />
     </video>
@@ -191,18 +191,18 @@
     <div style="position:absolute; left:0; right:0; bottom:0; height:46%">
       <svg viewBox="0 0 390 200" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%">
         <defs>
-          <linearGradient id="omStroke" x1="0" y1="0" x2="1" y2="0">
+          <linearGradient id="omStrokeMob" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#8B7355"></stop>
             <stop offset="55%" stop-color="#D4B06A"></stop>
             <stop offset="100%" stop-color="#F3E3BE"></stop>
           </linearGradient>
-          <linearGradient id="omArea" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="omAreaMob" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="rgba(212,176,106,.38)"></stop>
             <stop offset="100%" stop-color="rgba(212,176,106,0)"></stop>
           </linearGradient>
         </defs>
-        <path d="M0,168 C40,150 62,176 96,140 C128,106 150,132 186,96 C220,62 246,86 286,52 C318,25 348,34 390,12 L390,200 L0,200 Z" fill="url(#omArea)" style="opacity:0; animation:omFade 1.4s ease .9s forwards"></path>
-        <path d="M0,168 C40,150 62,176 96,140 C128,106 150,132 186,96 C220,62 246,86 286,52 C318,25 348,34 390,12" fill="none" stroke="url(#omStroke)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1400" stroke-dashoffset="1400" style="animation:omDraw 2.4s cubic-bezier(.6,0,.2,1) .55s forwards; filter:drop-shadow(0 0 10px rgba(212,176,106,.55))"></path>
+        <path d="M0,168 C40,150 62,176 96,140 C128,106 150,132 186,96 C220,62 246,86 286,52 C318,25 348,34 390,12 L390,200 L0,200 Z" fill="url(#omAreaMob)" style="opacity:0; animation:omFade 1.4s ease .9s forwards"></path>
+        <path d="M0,168 C40,150 62,176 96,140 C128,106 150,132 186,96 C220,62 246,86 286,52 C318,25 348,34 390,12" fill="none" stroke="url(#omStrokeMob)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1400" stroke-dashoffset="1400" style="animation:omDraw 2.4s cubic-bezier(.6,0,.2,1) .55s forwards; filter:drop-shadow(0 0 10px rgba(212,176,106,.55))"></path>
       </svg>
       <div style="position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:space-between; gap:6px; padding:0 18px">
         <div style="flex:1; height:34%; border-radius:3px; background:linear-gradient(to top, rgba(212,176,106,.05), rgba(212,176,106,.35)); transform-origin:bottom; animation:omRise .7s cubic-bezier(.2,.8,.2,1) .7s both"></div>
@@ -234,7 +234,7 @@
         <div style="display:inline-flex; align-self:flex-start; align-items:center; gap:8px; border-radius:999px; border:1px solid rgba(212,176,106,.45); background:rgba(5,8,10,.55); padding:7px 14px; font-size:11px; font-weight:700; color:#D4B06A; backdrop-filter:blur(8px); animation:omUp .9s ease 1.2s both">
           <span style="width:7px; height:7px; border-radius:999px; background:#D4B06A; animation:omBlink 1.6s ease-in-out infinite"></span>بازار زنده · تحلیل لحظه‌ای
         </div>
-        <h1 style="margin:0; font-size:92px; font-weight:900; line-height:.95; letter-spacing:-.055em; color:#E9CE93; text-shadow:0 0 42px rgba(212,176,106,.45); animation:omUp 1.1s cubic-bezier(.2,.8,.2,1) 1.3s both">پیشرو</h1>
+        <h1 data-hero style="margin:0; font-size:clamp(54px,18vw,92px); font-weight:900; line-height:.95; letter-spacing:-.055em; color:#E9CE93; text-shadow:0 0 42px rgba(212,176,106,.45); animation:omUp 1.1s cubic-bezier(.2,.8,.2,1) 1.3s both">پیشرو</h1>
         <div style="width:64px; height:2px; background:linear-gradient(to left,#D4B06A,transparent); animation:omUp .9s ease 1.5s both"></div>
         <p style="margin:0; max-width:300px; font-size:22px; font-weight:800; line-height:1.65; color:#F2F0E8; text-wrap:pretty; animation:omUp 1s ease 1.55s both">در مسیر سرمایه‌ گذاری هوشمند، یک قدم جلوتر بایستید.</p>
       </div>
@@ -391,7 +391,7 @@
           <p style="position:relative; margin:0; font-size:clamp(19px,2vw,26px); font-weight:700; line-height:2; color:#F2F0E8; text-wrap:pretty">{{ feature.text }}</p>
           <div style="display:flex; align-items:center; gap:16px; margin-top:36px; padding-top:26px; border-top:1px solid rgba(212,176,106,.2)">
             <div style="position:relative; width:56px; height:56px; border-radius:999px; overflow:hidden; box-shadow:0 0 0 2px rgba(212,176,106,.45)">
-              <img alt="{{ feature.name }}" src="{{ feature.avatar }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover" />
+              <img alt="{{ feature.name }}" src="{{ feature.avatar }}" referrerpolicy="no-referrer" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover" />
             </div>
             <div style="min-width:0; flex:1">
               <div style="font-size:17px; font-weight:800; color:#F2F0E8">{{ feature.name }}</div>
@@ -409,7 +409,7 @@
           <sc-for list="{{ voices }}" as="v" hint-placeholder-count="4">
             <button type="button" onClick="{{ v.select }}" style="display:flex; align-items:center; gap:14px; width:100%; text-align:right; cursor:pointer; font-family:inherit; padding:14px 16px; border-radius:18px; border:1px solid {{ v.border }}; background:{{ v.bg }}; color:inherit" style-hover="border-color:rgba(212,176,106,.5)">
               <span style="position:relative; display:block; width:44px; height:44px; flex:0 0 44px; border-radius:999px; overflow:hidden; box-shadow:0 0 0 2px {{ v.ring }}">
-                <img alt="{{ v.name }}" src="{{ v.avatar }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover" />
+                <img alt="{{ v.name }}" src="{{ v.avatar }}" referrerpolicy="no-referrer" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover" />
               </span>
               <span style="min-width:0; flex:1">
                 <span style="display:block; font-size:14px; font-weight:800; color:{{ v.nameColor }}">{{ v.name }}</span>
@@ -452,14 +452,14 @@
                 <span style="font-size:13px; font-weight:700; color:#8E8B81">مبلغ سرمایه‌گذاری</span>
                 <span style="font-size:19px; font-weight:900; color:#F2F0E8">{{ amountLabel }} <span style="font-size:12px; color:#8E8B81">تومان</span></span>
               </div>
-              <input type="range" min="50" max="2000" step="50" value="{{ amountRaw }}" onChange="{{ setAmount }}" style="width:100%; accent-color:#D4B06A; cursor:pointer" />
+              <input type="range" min="50" max="2000" step="50" value="{{ amountRaw }}" onChange="{{ setAmount }}" onInput="{{ setAmount }}" style="width:100%; accent-color:#D4B06A; cursor:pointer" />
             </div>
             <div>
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:12px">
                 <span style="font-size:13px; font-weight:700; color:#8E8B81">مدت سرمایه‌گذاری</span>
                 <span style="font-size:19px; font-weight:900; color:#F2F0E8">{{ monthsLabel }} <span style="font-size:12px; color:#8E8B81">ماه</span></span>
               </div>
-              <input type="range" min="1" max="36" step="1" value="{{ monthsRaw }}" onChange="{{ setMonths }}" style="width:100%; accent-color:#D4B06A; cursor:pointer" />
+              <input type="range" min="1" max="36" step="1" value="{{ monthsRaw }}" onChange="{{ setMonths }}" onInput="{{ setMonths }}" style="width:100%; accent-color:#D4B06A; cursor:pointer" />
             </div>
           </div>
         </div>
@@ -735,10 +735,10 @@ const STEPS = [
   { kicker: "قدم سوم", text: "سبد سرمایه‌گذاری خود را بسازید و رشد آن را ماه‌به‌ماه دنبال کنید.", phone: "ساخت و پایش سبد دارایی", shot: "https://www.pishrosarmaye.com/images/home/landing-slider/p09.webp" }
 ];
 const VOICES = [
-  { name: "محمد جواد نوری", role: "معامله‌گر کریپتو", rating: 5, avatar: "/api/uploads/comments/avatars/avatar_1786199060513_c3koswqq.jpg", text: "دوره کریپتو تریدینگ یکی از بهترین سرمایه‌گذاری‌های من بود! از پایه و کاملاً روان آموزش داده شد، هم فنی هم روان‌شناسی معامله. تمرین با چارت زنده باعث شد بدون ضرر وارد بازار واقعی بشم." },
-  { name: "آزاده بهرامی", role: "سرمایه‌گذار بورس", rating: 5, avatar: "/api/uploads/comments/avatars/avatar_1786198405433_nziebop7.jpg", text: "حدود دو سال پیش با این مجموعه آشنا شدم. کلاس‌ها بسیار پربار و عالی بود و پشتیبانی بعد از اتمام دوره، انگیزه و اعتماد به نفس زیادی به دوره‌آموزان می‌دهد." },
-  { name: "سینا رحیمی", role: "تحلیل‌گر تکنیکال", rating: 5, avatar: "/api/uploads/comments/avatars/avatar_1786199060513_c3koswqq.jpg", text: "چیزی که پیشرو را متفاوت می‌کند نظم مسیر آموزشی است؛ هر جلسه دقیقاً روی جلسه قبل سوار می‌شود و در پایان یک سیستم معاملاتی شخصی داری، نه مشتی اندیکاتور." },
-  { name: "مریم کاظمی", role: "مدیر پورتفولیو", rating: 4, avatar: "/api/uploads/comments/avatars/avatar_1786198405433_nziebop7.jpg", text: "بعد از دوره مدیریت سرمایه، ریسک سبدم را نصف کردم و بازدهی‌ام پایدارتر شد. مشاوره‌های تخصصی واقعاً روی تصمیم‌های روزمره‌ام تأثیر گذاشت." }
+  { name: "محمد جواد نوری", role: "معامله‌گر کریپتو", rating: 5, avatar: "/images/home/landing-slider/p04.webp", text: "دوره کریپتو تریدینگ یکی از بهترین سرمایه‌گذاری‌های من بود! از پایه و کاملاً روان آموزش داده شد، هم فنی هم روان‌شناسی معامله. تمرین با چارت زنده باعث شد بدون ضرر وارد بازار واقعی بشم." },
+  { name: "آزاده بهرامی", role: "سرمایه‌گذار بورس", rating: 5, avatar: "/images/home/landing-slider/p06.webp", text: "حدود دو سال پیش با این مجموعه آشنا شدم. کلاس‌ها بسیار پربار و عالی بود و پشتیبانی بعد از اتمام دوره، انگیزه و اعتماد به نفس زیادی به دوره‌آموزان می‌دهد." },
+  { name: "سینا رحیمی", role: "تحلیل‌گر تکنیکال", rating: 5, avatar: "/images/home/landing-slider/p04.webp", text: "چیزی که پیشرو را متفاوت می‌کند نظم مسیر آموزشی است؛ هر جلسه دقیقاً روی جلسه قبل سوار می‌شود و در پایان یک سیستم معاملاتی شخصی داری، نه مشتی اندیکاتور." },
+  { name: "مریم کاظمی", role: "مدیر پورتفولیو", rating: 4, avatar: "/images/home/landing-slider/p06.webp", text: "بعد از دوره مدیریت سرمایه، ریسک سبدم را نصف کردم و بازدهی‌ام پایدارتر شد. مشاوره‌های تخصصی واقعاً روی تصمیم‌های روزمره‌ام تأثیر گذاشت." }
 ];
 const FUNDS = [
   { name: "صندوق محتاط", rate: 0.02 },
@@ -750,21 +750,29 @@ const NAV = ["صفحه اصلی","دوره ها","قیمت ارزها","سبد �
 const STORY_MS = 6000;
 
 class Component extends DCLogic {
-  state = { isMobile: false, p: 0, menuOpen: false, step: 0, voice: 0, fund: 1, amount: 100, months: 12, chip: 0 };
+  state = { isMobile: (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 900px)").matches), p: 0, menuOpen: false, step: 0, voice: 0, fund: 1, amount: 100, months: 12, chip: 0 };
 
   componentDidMount() {
     this.mq = window.matchMedia("(max-width: 900px)");
     this.sync = () => this.setState({ isMobile: this.mq.matches });
     this.sync();
     this.mq.addEventListener("change", this.sync);
-    const t0 = Date.now() + 1500;
+    const t0 = Date.now() + 900;
     this.tick = setInterval(() => {
-      const p = Math.min(1, Math.max(0, (Date.now() - t0) / 1600));
+      const p = Math.min(1, Math.max(0, (Date.now() - t0) / 1400));
       this.setState({ p });
       if (p >= 1) clearInterval(this.tick);
     }, 110);
     this.queueStep();
     this.queueVoice();
+    /* remove curtain overlays after intro */
+    setTimeout(() => {
+      document.querySelectorAll('[style*="omCurtainTop"],[style*="omCurtainBottom"]').forEach(el => {
+        const wrap = el.parentElement;
+        if (wrap) wrap.remove();
+        else el.remove();
+      });
+    }, 2200);
   }
   componentWillUnmount() {
     if (this.mq) this.mq.removeEventListener("change", this.sync);
@@ -808,15 +816,18 @@ class Component extends DCLogic {
       img: B + "/images/home/landing-slider/p" + String(i + 1).padStart(2, "0") + ".webp"
     }));
     const base = [
-      { name: "محمد جواد نوری", text: C1, avatar: B + "/api/uploads/comments/avatars/avatar_1786199060513_c3koswqq.jpg" },
-      { name: "آزاده بهرامی", text: C2, avatar: B + "/api/uploads/comments/avatars/avatar_1786198405433_nziebop7.jpg" }
+      { name: "محمد جواد نوری", text: C1, avatar: B + "/images/home/landing-slider/p04.webp" },
+      { name: "آزاده بهرامی", text: C2, avatar: B + "/images/home/landing-slider/p06.webp" }
     ];
     const comments = [0,1,2,3,4,5].map(i => base[i % 2]);
-    const courses = [
-      { title: "دوره ی جامع الیوت", desc: "این دوره برای افرادی که نیازمند یادگیری حرفه ای الیوت و استفاده آن در معاملات روزمره خود هستند مناسب است", price: "۱۲ میلیون", students: "۱", videos: "۱", duration: "۰ دقیقه", rating: 2.5, img: B + "/api/uploads/courses/cmsh4m1wf0005uh8qky3292ih/cover/thumbnail_1786004015046.png" },
-      { title: "دوره جامع کریپتو تریدینگ", desc: "از صفر تا معامله‌گری حرفه‌ای در بازار ارزهای دیجیتال، همراه با تمرین روی چارت زنده", price: "۸ میلیون", students: "۲", videos: "۴", duration: "۰ دقیقه", rating: 4, img: B + "/images/home/landing-slider/p03.webp" },
-      { title: "مدیریت سرمایه و ریسک", desc: "اصول تخصیص دارایی، حد ضرر و متنوع‌سازی سبد برای حفظ سرمایه در بازارهای پرنوسان", price: "۵ میلیون", students: "۳", videos: "۶", duration: "۰ دقیقه", rating: 5, img: B + "/images/home/landing-slider/p02.webp" }
-    ].map(c => ({ ...c, stars: this.stars(c.rating) }));
+    const allCourses = [
+      { title: "دوره جامع الیوت", desc: "یادگیری حرفه‌ای امواج الیوت و به‌کارگیری آن در معاملات روزانه بازار سرمایه", price: "۱۲ میلیون", students: "۴۸۰", videos: "۳۶", duration: "۱۸ ساعت", rating: 4.5, cat: 1, img: B + "/images/home/landing-slider/p01.webp" },
+      { title: "دوره جامع کریپتو تریدینگ", desc: "از صفر تا معامله‌گری حرفه‌ای در بازار ارزهای دیجیتال، همراه با تمرین روی چارت زنده", price: "۸ میلیون", students: "۹۲۰", videos: "۴۲", duration: "۲۴ ساعت", rating: 5, cat: 2, img: B + "/images/home/landing-slider/p03.webp" },
+      { title: "مدیریت سرمایه و ریسک", desc: "اصول تخصیص دارایی، حد ضرر و متنوع‌سازی سبد برای حفظ سرمایه در بازارهای پرنوسان", price: "۵ میلیون", students: "۶۱۰", videos: "۲۰", duration: "۱۲ ساعت", rating: 5, cat: 3, img: B + "/images/home/landing-slider/p02.webp" }
+    ];
+    const courses = allCourses
+      .filter(c => this.state.chip === 0 || c.cat === this.state.chip)
+      .map(c => ({ ...c, stars: this.stars(c.rating) }));
     const { isMobile, p, menuOpen } = this.state;
     const e = 1 - Math.pow(1 - p, 3);
     const rate = FUNDS[this.state.fund].rate;
@@ -857,8 +868,8 @@ class Component extends DCLogic {
         const v = Math.pow(1 + rate, m);
         return { h: (18 + ((v - 1) / Math.max(growth - 1, 0.0001)) * 82).toFixed(1) + "%" };
       }),
-      setAmount: e => this.setState({ amount: Number(e.target.value) }),
-      setMonths: e => this.setState({ months: Number(e.target.value) }),
+      setAmount: e => this.setState({ amount: Number((e && e.target && e.target.value) != null ? e.target.value : e) }),
+      setMonths: e => this.setState({ months: Number((e && e.target && e.target.value) != null ? e.target.value : e) }),
       courseCount: this.fa(courses.length * 8),
       chips: CHIPS.map((label, i) => ({
         label,

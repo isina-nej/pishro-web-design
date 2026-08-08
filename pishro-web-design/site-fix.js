@@ -7,7 +7,14 @@
     el.id = STYLE_ID;
     el.textContent = `
 /* Keep reveal content visible if observer races after SPA page switches */
-[data-reveal].in{opacity:1}
+[data-reveal].in,
+[data-kin].in{
+  opacity:1!important;
+  filter:none!important;
+}
+[data-reveal].in{
+  transform:none!important;
+}
 
 @media (max-width:900px){
   html,body{overflow-x:hidden}
@@ -30,13 +37,16 @@
     font-size:13px!important;
   }
   header nav a{padding:6px 0!important}
-  [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns"]:not([data-keep-grid]){grid-template-columns:1fr!important}
   [style*="grid-column:span"],
   [style*="grid-column: span"]{grid-column:span 1!important}
-  h1{font-size:clamp(28px,7.5vw,42px)!important;line-height:1.45!important;letter-spacing:-.4px!important}
+  h1:not([data-hero]){font-size:clamp(28px,7.5vw,42px)!important;line-height:1.45!important;letter-spacing:-.4px!important}
   h2{font-size:clamp(22px,5.8vw,30px)!important}
   h3{font-size:clamp(17px,4.6vw,22px)!important}
-  section,article,footer > div,[data-page] > section{
+  section:not([data-fullbleed]),
+  article,
+  footer > div,
+  [data-page] > section{
     padding-left:16px!important;
     padding-right:16px!important;
   }
@@ -59,7 +69,9 @@
   body{font-size:15px}
   header > div{padding:12px 14px!important;gap:10px!important}
   header nav{gap:6px 10px!important;font-size:12.5px!important}
-  section,article,footer > div{padding-left:14px!important;padding-right:14px!important}
+  section:not([data-fullbleed]),
+  article,
+  footer > div{padding-left:14px!important;padding-right:14px!important}
   [style*="padding: 44px"],
   [style*="padding: 46px"],
   [style*="padding: 48px"],
@@ -87,7 +99,7 @@
   }
 
   function revealAllPending() {
-    document.querySelectorAll("[data-reveal]:not(.in)").forEach((el) => {
+    document.querySelectorAll("[data-reveal]:not(.in), [data-kin]:not(.in)").forEach((el) => {
       el.classList.add("in");
       el.querySelectorAll("[data-count]").forEach((c) => {
         if (c.dataset.countDone) return;
@@ -103,7 +115,6 @@
   }
 
   function bootRevealFix() {
-    // Keep watching forever so SPA page switches don't leave opacity:0 content.
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((en) => {
@@ -113,35 +124,39 @@
           io.unobserve(el);
         });
       },
-      { threshold: 0.05, rootMargin: "0px 0px -4% 0px" }
+      { threshold: 0.01, rootMargin: "0px 0px -2% 0px" }
     );
 
     const scan = () => {
-      document.querySelectorAll("[data-reveal]:not(.in)").forEach((el) => io.observe(el));
+      document
+        .querySelectorAll("[data-reveal]:not(.in), [data-kin]:not(.in)")
+        .forEach((el) => io.observe(el));
     };
 
     scan();
     setInterval(scan, 400);
 
-    // After loading overlay / sc-if swaps, force-visible as failsafe.
+    // Above-the-fold content should never stay invisible.
+    setTimeout(revealAllPending, 700);
+    setTimeout(revealAllPending, 1600);
+
     const mo = new MutationObserver(() => {
       clearTimeout(mo._t);
       mo._t = setTimeout(() => {
         scan();
-        // If still pending briefly after mount into DOM, force show (nav pages).
-        setTimeout(revealAllPending, 350);
+        setTimeout(revealAllPending, 280);
       }, 40);
     });
     mo.observe(document.documentElement, { childList: true, subtree: true });
 
-    // Also force after clicks on in-app nav.
     document.addEventListener(
       "click",
       (e) => {
         const a = e.target && e.target.closest ? e.target.closest("a,button") : null;
         if (!a) return;
-        setTimeout(revealAllPending, 550);
+        setTimeout(revealAllPending, 520);
         setTimeout(revealAllPending, 900);
+        setTimeout(revealAllPending, 1300);
       },
       true
     );
